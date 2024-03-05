@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AlecRabbit\Tests\Sneaky\Unit;
 
+use AlecRabbit\Sneaky\Exception\MethodDoesNotExist;
+use AlecRabbit\Sneaky\Exception\PropertyDoesNotExist;
 use AlecRabbit\Sneaky\ReflectionPeek;
 use AlecRabbit\Tests\TestClass\AbstractClass;
 use AlecRabbit\Tests\TestClass\HasConstants;
@@ -13,6 +15,8 @@ use AlecRabbit\Tests\TestClass\HasStaticMethods;
 use AlecRabbit\Tests\TestClass\HasStaticProperties;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use stdClass;
 
 final class ReflectionPeekTest extends TestCase
 {
@@ -28,10 +32,10 @@ final class ReflectionPeekTest extends TestCase
     }
 
     protected function getTesteeInstance(
-        ?\ReflectionClass $reflection = null,
+        ?ReflectionClass $reflection = null,
     ): ReflectionPeek {
         return new ReflectionPeek(
-            $reflection ?? new \ReflectionClass(new \stdClass())
+            $reflection ?? new ReflectionClass(new stdClass())
         );
     }
 
@@ -40,7 +44,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasStaticProperties::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame('private', $peek->privateProperty);
         self::assertSame('protected', $peek->protectedProperty);
@@ -51,7 +55,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = AbstractClass::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame(1, $peek->privateProperty);
         self::assertSame(2, $peek->protectedProperty);
@@ -62,7 +66,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = AbstractClass::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         $peek->privateProperty = 3;
         $peek->protectedProperty = 4;
@@ -80,7 +84,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = AbstractClass::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame(20, $peek->privateMethod(20));
         self::assertSame(10, $peek->protectedMethod(10));
@@ -91,7 +95,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasProperties::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame('private', $peek->privateProperty);
         self::assertSame('protected', $peek->protectedProperty);
@@ -102,7 +106,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasStaticProperties::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         $peek->privateProperty = 'new private';
         $peek->protectedProperty = 'new protected';
@@ -120,7 +124,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasProperties::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         $peek->privateProperty = 'new private';
         $peek->protectedProperty = 'new protected';
@@ -134,7 +138,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasStaticMethods::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame(2, $peek->privateMethod(2));
         self::assertSame(1, $peek->protectedMethod(1));
@@ -145,7 +149,7 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasMethods::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame(1, $peek->privateMethod(1));
         self::assertSame(2, $peek->protectedMethod(2));
@@ -157,7 +161,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasStaticProperties::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         self::assertSame('private', $peek->privateProperty);
         self::assertSame('protected', $peek->protectedProperty);
@@ -169,7 +173,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasProperties::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         self::assertSame('private', $peek->privateProperty);
         self::assertSame('protected', $peek->protectedProperty);
@@ -181,7 +185,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasStaticProperties::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         $peek->privateProperty = 'new private';
         $peek->protectedProperty = 'new protected';
@@ -200,7 +204,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasProperties::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         $peek->privateProperty = 'new private';
         $peek->protectedProperty = 'new protected';
@@ -215,7 +219,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasStaticMethods::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         self::assertSame(2, $peek->privateMethod(2));
         self::assertSame(1, $peek->protectedMethod(1));
@@ -227,7 +231,7 @@ final class ReflectionPeekTest extends TestCase
         $class = HasMethods::class;
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         self::assertSame(1, $peek->privateMethod(1));
         self::assertSame(2, $peek->protectedMethod(2));
@@ -236,9 +240,9 @@ final class ReflectionPeekTest extends TestCase
     #[Test]
     public function throwsIfPropertyDoesNotExistOnGet(): void
     {
-        $peek = $this->getTesteeInstance(new \ReflectionClass(new \stdClass()));
+        $peek = $this->getTesteeInstance(new ReflectionClass(new stdClass()));
 
-        $this->expectException(\AlecRabbit\Sneaky\Exception\PropertyDoesNotExist::class);
+        $this->expectException(PropertyDoesNotExist::class);
         $this->expectExceptionMessage('Property [nonExistentProperty] does not exist in [stdClass]');
 
         $peek->nonExistentProperty;
@@ -249,28 +253,31 @@ final class ReflectionPeekTest extends TestCase
     {
         $class = HasConstants::class;
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($class));
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
 
         self::assertSame('private', $peek->PRIVATE_CONSTANT);
         self::assertSame('protected', $peek->PROTECTED_CONSTANT);
     }
+
     #[Test]
     public function canGetConstantsWithObject(): void
     {
         $class = HasConstants::class;
+
         $object = new $class();
 
-        $peek = $this->getTesteeInstance(new \ReflectionClass($object));
+        $peek = $this->getTesteeInstance(new ReflectionClass($object));
 
         self::assertSame('private', $peek->PRIVATE_CONSTANT);
         self::assertSame('protected', $peek->PROTECTED_CONSTANT);
     }
-        #[Test]
+
+    #[Test]
     public function throwsIfPropertyDoesNotExistOnSet(): void
     {
-        $peek = $this->getTesteeInstance(new \ReflectionClass(new \stdClass()));
+        $peek = $this->getTesteeInstance(new ReflectionClass(new stdClass()));
 
-        $this->expectException(\AlecRabbit\Sneaky\Exception\PropertyDoesNotExist::class);
+        $this->expectException(PropertyDoesNotExist::class);
         $this->expectExceptionMessage('Property [nonExistentProperty] does not exist in [stdClass]');
 
         $peek->nonExistentProperty = 1;
@@ -279,9 +286,9 @@ final class ReflectionPeekTest extends TestCase
     #[Test]
     public function throwsIfMethodDoesNotExist(): void
     {
-        $peek = $this->getTesteeInstance(new \ReflectionClass(new \stdClass()));
+        $peek = $this->getTesteeInstance(new ReflectionClass(new stdClass()));
 
-        $this->expectException(\AlecRabbit\Sneaky\Exception\MethodDoesNotExist::class);
+        $this->expectException(MethodDoesNotExist::class);
         $this->expectExceptionMessage('Method [nonExistentMethod] does not exist in [stdClass]');
 
         $peek->nonExistentMethod();

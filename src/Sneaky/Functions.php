@@ -7,6 +7,11 @@ namespace AlecRabbit\Tests\TestCase\Sneaky;
 
 use AlecRabbit\Sneaky\Peek;
 use AlecRabbit\Sneaky\ReflectionPeek;
+use ReflectionClass;
+
+use ReflectionException;
+
+use function is_object;
 
 if (!function_exists('peek')) {
     /**
@@ -15,14 +20,14 @@ if (!function_exists('peek')) {
      * @psalm-param T|class-string<T> $obj
      * @return ($obj is class-string ? ReflectionPeek :  Peek<T>)
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     function peek(object|string $obj): Peek|ReflectionPeek
     {
-        if (\is_object($obj)) {
+        if (is_object($obj)) {
             return new Peek($obj);
         }
 
-        return new ReflectionPeek(new \ReflectionClass($obj));
+        return new ReflectionPeek(new ReflectionClass($obj));
     }
 }

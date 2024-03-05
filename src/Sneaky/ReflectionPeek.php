@@ -6,17 +6,19 @@ namespace AlecRabbit\Sneaky;
 
 use AlecRabbit\Sneaky\Exception\MethodDoesNotExist;
 use AlecRabbit\Sneaky\Exception\PropertyDoesNotExist;
+use ReflectionClass;
+use stdClass;
 
 final class ReflectionPeek
 {
     private readonly object $obj;
 
     public function __construct(
-        private readonly \ReflectionClass $reflection
+        private readonly ReflectionClass $reflection
     ) {
         $this->obj = $reflection->isInstantiable()
             ? $reflection->newInstanceWithoutConstructor()
-            : new \stdClass();
+            : new stdClass();
     }
 
     public function __get(string $name): mixed
@@ -27,7 +29,7 @@ final class ReflectionPeek
             }
             return (fn(): mixed => $this->{$name})->call($this->obj);
         }
-        
+
         if ($this->reflection->hasConstant($name)) {
             return $this->reflection->getConstant($name);
         }

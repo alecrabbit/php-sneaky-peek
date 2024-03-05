@@ -6,8 +6,11 @@ namespace AlecRabbit\Tests\Sneaky\Unit;
 
 use AlecRabbit\Sneaky\Peek;
 use AlecRabbit\Tests\TestClass\WithDynamicProperties;
+use Error;
+use Exception;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 final class PeekTest extends TestCase
 {
@@ -25,7 +28,7 @@ final class PeekTest extends TestCase
     protected function getTesteeInstance(
         ?object $o = null
     ): Peek {
-        return new Peek($o ?? new \stdClass());
+        return new Peek($o ?? new stdClass());
     }
 
     #[Test]
@@ -143,7 +146,7 @@ final class PeekTest extends TestCase
     #[Test]
     public function throwsOnMethodCallIfMethodIsUndefined(): void
     {
-        $this->expectException(\Error::class);
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('Call to undefined method ');
 
         $o = new class {
@@ -157,7 +160,7 @@ final class PeekTest extends TestCase
     #[Test]
     public function throwsOnGetUndefinedProperty(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Undefined property: ');
 
         $o = new class {
@@ -176,17 +179,18 @@ final class PeekTest extends TestCase
         $peek = $this->getTesteeInstance($o);
 
         $peek->nonexistent = 1;
-        
+
         self::assertSame(1, $peek->nonexistent);
-    }    
-    
+    }
+
     #[Test]
     public function throwsOnSetUndefinedPropertyNoDynamic(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Creation of dynamic property ');
 
-        $o = new class {};
+        $o = new class {
+        };
 
         $peek = $this->getTesteeInstance($o);
 

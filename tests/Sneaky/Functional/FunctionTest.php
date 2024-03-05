@@ -10,6 +10,8 @@ use AlecRabbit\Tests\TestClass\HasStaticMethods;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+use ReflectionException;
+
 use function AlecRabbit\Tests\TestCase\Sneaky\peek;
 
 final class FunctionTest extends TestCase
@@ -42,9 +44,9 @@ final class FunctionTest extends TestCase
     #[Test]
     public function throwsReflectionException(): void
     {
-        $this->expectException(\ReflectionException::class);
+        $this->expectException(ReflectionException::class);
         $this->expectExceptionMessage('Class "string" does not exist');
 
-       peek('string');
+        peek('string');
     }
 }

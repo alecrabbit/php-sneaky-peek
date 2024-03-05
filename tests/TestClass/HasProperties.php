@@ -6,6 +6,6 @@ namespace AlecRabbit\Tests\TestClass;
 
 class HasProperties
 {
-    private string $privateProperty = 'private';
     protected string $protectedProperty = 'protected';
+    private string $privateProperty = 'private';
 }
