@@ -175,13 +175,19 @@ final class PeekTest extends TestCase
     #[Test]
     public function canSetUndefinedPropertyWithAllowedDynamic(): void
     {
-        $o = new WithDynamicProperties();
+        // if php version is 8.2 or below skip this test
+        if (PHP_VERSION_ID >= 80300) {
+            $o = new WithDynamicProperties();
 
-        $peek = $this->getTesteeInstance($o);
+            $peek = $this->getTesteeInstance($o);
 
-        $peek->nonexistent = 1;
+            $peek->nonexistent = 1;
 
-        self::assertSame(1, $peek->nonexistent);
+            self::assertSame(1, $peek->nonexistent);
+            return;
+        }
+        
+       self::markTestSkipped('Test skipped for PHP versions below [8.3].');
     }
 
     #[Test]
