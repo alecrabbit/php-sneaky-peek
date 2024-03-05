@@ -1,4 +1,0 @@
-/app/src/Sneaky/Functions.php:19:25:error - PossiblyInvalidArgument: Argument 1 of AlecRabbit\Sneaky\Peek::__construct expects object, but possibly different type (T:fn-alecrabbit\tests\testcase\sneaky\peek as object)|(class-string<T:fn-alecrabbit\tests\testcase\sneaky\peek as object>) provided
-/app/src/Sneaky/ReflectionPeek.php:25:21:error - MissingClosureReturnType: Closure does not have a return type, expecting mixed
-/app/src/Sneaky/ReflectionPeek.php:44:14:error - MissingClosureReturnType: Closure does not have a return type, expecting mixed
-/app/src/Sneaky/ReflectionPeek.php:63:21:error - MissingClosureReturnType: Closure does not have a return type, expecting mixed

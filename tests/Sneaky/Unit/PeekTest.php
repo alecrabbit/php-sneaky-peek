@@ -9,7 +9,7 @@ use AlecRabbit\Tests\TestClass\WithDynamicProperties;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PeekTest extends TestCase
+final class PeekTest extends TestCase
 {
     #[Test]
     public function canBeInstantiated(): void

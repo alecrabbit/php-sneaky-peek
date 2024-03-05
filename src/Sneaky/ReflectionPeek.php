@@ -22,7 +22,7 @@ final class ReflectionPeek
             if ($this->reflection->getProperty($name)->isStatic()) {
                 return $this->reflection->getStaticPropertyValue($name);
             }
-            return (fn() => $this->{$name})->call($this->obj);
+            return (fn():mixed => $this->{$name})->call($this->obj);
         }
 
         throw new PropertyDoesNotExist(
@@ -41,7 +41,7 @@ final class ReflectionPeek
                 $this->reflection->setStaticPropertyValue($name, $value);
                 return;
             }
-            (fn() => $this->{$name} = $value)->call($this->obj);
+            (fn():mixed => $this->{$name} = $value)->call($this->obj);
             return;
         }
 
@@ -60,7 +60,7 @@ final class ReflectionPeek
             if($this->reflection->getMethod($name)->isStatic()) {
                 return $this->reflection->getMethod($name)->invoke(null, ...$params);
             }
-            return (fn() => $this->{$name}(...$params))->call($this->obj);
+            return (fn():mixed => $this->{$name}(...$params))->call($this->obj);
         }
 
         throw new MethodDoesNotExist(

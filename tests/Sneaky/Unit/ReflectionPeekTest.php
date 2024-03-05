@@ -12,7 +12,7 @@ use AlecRabbit\Tests\TestClass\HasStaticProperties;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class ReflectionPeekTest extends TestCase
+final class ReflectionPeekTest extends TestCase
 {
     #[Test]
     public function canBeInstantiated(): void
