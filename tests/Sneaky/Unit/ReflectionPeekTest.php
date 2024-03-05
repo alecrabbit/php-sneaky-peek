@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AlecRabbit\Tests\Sneaky\Unit;
 
 use AlecRabbit\Sneaky\Exception\MethodDoesNotExist;
+use AlecRabbit\Sneaky\Exception\NoInstance;
 use AlecRabbit\Sneaky\Exception\PropertyDoesNotExist;
 use AlecRabbit\Sneaky\ReflectionPeek;
 use AlecRabbit\Tests\TestClass\AbstractClass;
@@ -88,6 +89,43 @@ final class ReflectionPeekTest extends TestCase
 
         self::assertSame(20, $peek->privateMethod(20));
         self::assertSame(10, $peek->protectedMethod(10));
+    }
+
+    #[Test]
+    public function throwsOnCallMethodsOfAbstractClass(): void
+    {
+        $class = AbstractClass::class;
+        
+        $this->expectException(NoInstance::class);
+        $this->expectExceptionMessage('No instance for [AlecRabbit\Tests\TestClass\AbstractClass].');
+
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
+
+        self::assertSame(20, $peek->instancePrivateMethod(20));
+    }   
+    #[Test]
+    public function throwsOnGetPropertyOfAbstractClass(): void
+    {
+        $class = AbstractClass::class;
+        
+        $this->expectException(NoInstance::class);
+        $this->expectExceptionMessage('No instance for [AlecRabbit\Tests\TestClass\AbstractClass].');
+
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
+
+        self::assertSame(20, $peek->privateInstanceProperty);
+    }   
+    #[Test]
+    public function throwsOnSetPropertyOfAbstractClass(): void
+    {
+        $class = AbstractClass::class;
+        
+        $this->expectException(NoInstance::class);
+        $this->expectExceptionMessage('No instance for [AlecRabbit\Tests\TestClass\AbstractClass].');
+
+        $peek = $this->getTesteeInstance(new ReflectionClass($class));
+
+        $peek->privateInstanceProperty = 'new';
     }
 
     #[Test]

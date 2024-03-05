@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace AlecRabbit\Sneaky;
 
 use AlecRabbit\Sneaky\Exception\MethodDoesNotExist;
+use AlecRabbit\Sneaky\Exception\NoInstance;
 use AlecRabbit\Sneaky\Exception\PropertyDoesNotExist;
 use ReflectionClass;
 use stdClass;
 
 final class ReflectionPeek
 {
-    private readonly object $obj;
+    private readonly object $instance;
 
     public function __construct(
         private readonly ReflectionClass $reflection
     ) {
-        $this->obj = $reflection->isInstantiable()
+        $this->instance = $reflection->isInstantiable()
             ? $reflection->newInstanceWithoutConstructor()
             : new stdClass();
     }
@@ -27,7 +28,10 @@ final class ReflectionPeek
             if ($this->reflection->getProperty($name)->isStatic()) {
                 return $this->reflection->getStaticPropertyValue($name);
             }
-            return (fn(): mixed => $this->{$name})->call($this->obj);
+            
+            $this->checkInstance();
+            
+            return (fn(): mixed => $this->{$name})->call($this->instance);
         }
 
         if ($this->reflection->hasConstant($name)) {
@@ -36,7 +40,7 @@ final class ReflectionPeek
 
         throw new PropertyDoesNotExist(
             sprintf(
-                'Property [%s] does not exist in [%s]',
+                'Property [%s] does not exist in [%s].',
                 $name,
                 $this->reflection->getName()
             )
@@ -50,13 +54,16 @@ final class ReflectionPeek
                 $this->reflection->setStaticPropertyValue($name, $value);
                 return;
             }
-            (fn(): mixed => $this->{$name} = $value)->call($this->obj);
+            
+            $this->checkInstance();
+            
+            (fn(): mixed => $this->{$name} = $value)->call($this->instance);
             return;
         }
 
         throw new PropertyDoesNotExist(
             sprintf(
-                'Property [%s] does not exist in [%s]',
+                'Property [%s] does not exist in [%s].',
                 $name,
                 $this->reflection->getName()
             )
@@ -69,15 +76,30 @@ final class ReflectionPeek
             if ($this->reflection->getMethod($name)->isStatic()) {
                 return $this->reflection->getMethod($name)->invoke(null, ...$params);
             }
-            return (fn(): mixed => $this->{$name}(...$params))->call($this->obj);
+
+            $this->checkInstance();
+
+            return (fn(): mixed => $this->{$name}(...$params))->call($this->instance);
         }
 
         throw new MethodDoesNotExist(
             sprintf(
-                'Method [%s] does not exist in [%s]',
+                'Method [%s] does not exist in [%s].',
                 $name,
                 $this->reflection->getName(),
             )
         );
+    }
+
+    protected function checkInstance(): void
+    {
+        if ($this->instance instanceof stdClass) {
+            throw new NoInstance(
+                sprintf(
+                    'No instance for [%s].',
+                    $this->reflection->getName(),
+                )
+            );
+        }
     }
 }
