@@ -3,7 +3,9 @@ docker/ export-ignore
 docker-compose.dev.yml export-ignore
 docker-compose.yml export-ignore
 .env.dist export-ignore
+.gitattributes export-ignore
 .gitattributes.keep export-ignore
+.github/ export-ignore
 .gitignore export-ignore
 .make/ export-ignore
 Makefile export-ignore
