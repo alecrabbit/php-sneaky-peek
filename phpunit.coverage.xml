@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         executionOrder="random"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         colors="true"
+         cacheDirectory=".tools/.phpunit.cache"
+         beStrictAboutCoverageMetadata="false"
+>
+    <testsuites>
+        <testsuite name="Sneaky/Functional">
+            <directory>tests/Sneaky/Functional</directory>
+        </testsuite>
+        <testsuite name="Sneaky/Unit">
+            <directory>tests/Sneaky/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <report>
+            <text outputFile=".tools/.report/.build/coverage.txt" showOnlySummary="true"/>
+            <html outputDirectory=".tools/.report/.build/coverage/generic"/>
+        </report>
+    </coverage>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+</phpunit>

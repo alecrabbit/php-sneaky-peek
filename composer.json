@@ -1,0 +1,44 @@
+{
+    "name": "alecrabbit/php-sneaky-peek",
+    "description": "Private and protected properties and methods accessors. NOT FOR PRODUCTION USE.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php",
+        "accessor",
+        "private",
+        "protected",
+        "reflection"
+    ],
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "fakerphp/faker": "*",
+        "nunomaduro/collision": "*",
+        "phpunit/php-code-coverage": "*",
+        "phpunit/phpunit": "^11.0",
+        "symfony/console": "*",
+        "symfony/var-dumper": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "AlecRabbit\\Sneaky\\": "src\\Sneaky\\"
+        },
+        "files": [
+            "src/Sneaky/Functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AlecRabbit\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

@@ -1,0 +1,8 @@
+x-bash-rc: &bash-rc ./docker/.cli/.bashrc:/root/.bashrc
+
+services:
+  app:
+    build:
+      context: ./docker
+    volumes:
+      - *bash-rc
