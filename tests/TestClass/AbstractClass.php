@@ -6,13 +6,16 @@ namespace AlecRabbit\Tests\TestClass;
 
 abstract class AbstractClass
 {
-    protected static int $staticValue = 1;
-    protected int $value = 1;
+    protected static int $protectedProperty = 2;
+    private static int $privateProperty = 1;
 
-    protected static function staticPlus(int $inc): int {
-        return self::$staticValue + $inc;
+    protected static function protectedMethod(int $value): int
+    {
+        return $value;
     }
-    protected function plus(int $inc): int {
-        return $this->value + $inc;
+
+    private static function privateMethod(int $value): int
+    {
+        return $value;
     }
 }

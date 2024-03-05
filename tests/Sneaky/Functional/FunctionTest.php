@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AlecRabbit\Tests\Sneaky\Unit;
+namespace AlecRabbit\Tests\Sneaky\Functional;
 
 use AlecRabbit\Sneaky\Peek;
 use AlecRabbit\Sneaky\ReflectionPeek;
