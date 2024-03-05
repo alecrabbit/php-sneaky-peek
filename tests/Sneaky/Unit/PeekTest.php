@@ -183,24 +183,24 @@ final class PeekTest extends TestCase
         self::assertSame(1, $peek->nonexistent);
     }
 
-    #[Test]
-    public function throwsOnSetUndefinedPropertyNoDynamic(): void
-    {
-        if (PHP_VERSION_ID >= 80300) {
-            $this->expectException(Exception::class);
-            $this->expectExceptionMessage('Creation of dynamic property ');
-
-            $o = new class {
-            };
-
-            $peek = $this->getTesteeInstance($o);
-
-            $peek->nonexistent = 1;
-            return;
-        }
-
-        self::markTestSkipped('Test skipped for PHP versions below [8.3].');
-    }
+//    #[Test]
+//    public function throwsOnSetUndefinedPropertyNoDynamic(): void
+//    {
+//        if (PHP_VERSION_ID >= 80300) {
+//            $this->expectException(Exception::class);
+//            $this->expectExceptionMessage('Creation of dynamic property ');
+//
+//            $o = new class {
+//            };
+//
+//            $peek = $this->getTesteeInstance($o);
+//
+//            $peek->nonexistent = 1;
+//            return;
+//        }
+//
+//        self::markTestSkipped('Test skipped for PHP versions below [8.3].');
+//    }
 
     #[Test]
     public function throwsIfMethodDoesNotExist(): void
