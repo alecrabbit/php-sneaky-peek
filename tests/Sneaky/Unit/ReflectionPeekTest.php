@@ -330,5 +330,16 @@ final class ReflectionPeekTest extends TestCase
         $this->expectExceptionMessage('Method [nonExistentMethod] does not exist in [stdClass]');
 
         $peek->nonExistentMethod();
+    }   
+    
+    #[Test]
+    public function throwsIfMethodDoesNotExistWithClassName(): void
+    {
+        $peek = $this->getTesteeInstance(new ReflectionClass(stdClass::class));
+
+        $this->expectException(MethodDoesNotExist::class);
+        $this->expectExceptionMessage('Method [nonExistentMethod] does not exist in [stdClass]');
+
+        $peek->nonExistentMethod();
     }
 }

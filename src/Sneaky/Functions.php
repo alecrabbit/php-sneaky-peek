@@ -24,7 +24,7 @@ if (!function_exists('peek')) {
      */
     function peek(object|string $obj): Peek|ReflectionPeek
     {
-        if (is_object($obj)) {
+        if (is_object($obj) && $obj::class !== \stdClass::class) {
             return new Peek($obj);
         }
 

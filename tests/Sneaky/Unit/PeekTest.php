@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlecRabbit\Tests\Sneaky\Unit;
 
+use AlecRabbit\Sneaky\Exception\MethodDoesNotExist;
 use AlecRabbit\Sneaky\Peek;
 use AlecRabbit\Tests\TestClass\WithDynamicProperties;
 use Error;
@@ -195,5 +196,16 @@ final class PeekTest extends TestCase
         $peek = $this->getTesteeInstance($o);
 
         $peek->nonexistent = 1;
+    }
+
+    #[Test]
+    public function throwsIfMethodDoesNotExist(): void
+    {
+        $peek = $this->getTesteeInstance(new stdClass());
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Cannot bind closure to scope of internal class stdClass');
+
+        $peek->nonExistentMethod();
     }
 }

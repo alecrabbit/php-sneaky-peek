@@ -7,6 +7,7 @@ namespace AlecRabbit\Tests\Sneaky\Functional;
 use AlecRabbit\Sneaky\Peek;
 use AlecRabbit\Sneaky\ReflectionPeek;
 use AlecRabbit\Tests\TestClass\HasStaticMethods;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,6 +17,13 @@ use function AlecRabbit\Tests\TestCase\Sneaky\peek;
 
 final class FunctionTest extends TestCase
 {
+    public static function functionReturnsReflectionPeekDataProvider(): iterable
+    {
+        for ($i = 0; $i < 100; $i++) {
+            yield [$i];
+        }
+    }
+
     #[Test]
     public function functionReturnsPeek(): void
     {
@@ -33,12 +41,21 @@ final class FunctionTest extends TestCase
     }
 
     #[Test]
-    public function functionReturnsReflectionPeek(): void
+    #[DataProvider('functionReturnsReflectionPeekDataProvider')]
+    public function functionReturnsReflectionPeek(int $i): void
     {
         $peeked = peek(HasStaticMethods::class);
 
         self::assertSame(ReflectionPeek::class, $peeked::class);
-        self::assertSame(23, $peeked->privateMethod(23));
+        self::assertSame($i, $peeked->privateMethod($i));
+    }
+    
+   #[Test]
+    public function functionReturnsReflectionPeekOnStdClassObject(): void
+    {
+        $peeked = peek(new \stdClass());
+
+        self::assertSame(ReflectionPeek::class, $peeked::class);
     }
 
     #[Test]
