@@ -10,10 +10,18 @@ use AlecRabbit\Sneaky\Exception\PropertyDoesNotExist;
 use ReflectionClass;
 use stdClass;
 
+/**
+ * @template T of object
+ * @mixin T
+ */
 final class ReflectionPeek
 {
     private readonly object $instance;
 
+    /**
+     * @param ReflectionClass<T> $reflection
+     * @throws \ReflectionException
+     */
     public function __construct(
         private readonly ReflectionClass $reflection
     ) {

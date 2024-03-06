@@ -28,6 +28,9 @@ if (!function_exists('peek')) {
             return new Peek($obj);
         }
 
-        return new ReflectionPeek(new ReflectionClass($obj));
+        /** @var ReflectionClass<T> $reflection */
+        $reflection = new ReflectionClass($obj);
+
+        return new ReflectionPeek($reflection);
     }
 }
