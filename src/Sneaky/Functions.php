@@ -18,7 +18,7 @@ if (!function_exists('peek')) {
      * @template T of object
      *
      * @psalm-param T|class-string<T> $obj
-     * @return ($obj is class-string ? ReflectionPeek :  Peek<T>)
+     * @return ($obj is class-string ? ReflectionPeek<T> :  Peek<T>)
      *
      * @throws ReflectionException
      */
